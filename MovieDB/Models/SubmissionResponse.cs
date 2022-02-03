@@ -13,18 +13,23 @@ namespace MovieDB.Models
         [Key]
         [Required]
         public int SubmissionId { get; set; }
-        [Required(ErrorMessage = "Required Field")]
+        [Required(ErrorMessage = "You can't forget the title!")]
         public string Title { get; set; }
-        [Required(ErrorMessage = "Required Field")]
+        [Required(ErrorMessage = "Please add the year the film was released.")]
         public short Year { get; set; }
-        [Required(ErrorMessage = "Required Field")]
+        [Required(ErrorMessage = "Go on IMDB and add the director to this film.")]
         public string Director { get; set; }
-        [Required(ErrorMessage = "Required Field")]
+        [Required(ErrorMessage = "As per law, MPAA rating required.")]
         public string Rating { get; set; }
         public bool Edited { get; set; }
         public string LentTo { get; set; }
         /*for the text restraint on notes*/
         [MaxLength(25)]
         public string Notes { get; set; }
+        [Required(ErrorMessage = "Pick a category!")]
+
+        //Build Foreign Key Relations
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
     }
 }

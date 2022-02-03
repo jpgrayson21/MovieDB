@@ -15,10 +15,54 @@ namespace MovieDB.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.22");
 
+            modelBuilder.Entity("MovieDB.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CategoryName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryID = 1,
+                            CategoryName = "Action/Adventure"
+                        },
+                        new
+                        {
+                            CategoryID = 2,
+                            CategoryName = "Comedy"
+                        },
+                        new
+                        {
+                            CategoryID = 3,
+                            CategoryName = "Horror/Suspense"
+                        },
+                        new
+                        {
+                            CategoryID = 4,
+                            CategoryName = "Psychological Thriller"
+                        },
+                        new
+                        {
+                            CategoryID = 5,
+                            CategoryName = "Sports Drama"
+                        });
+                });
+
             modelBuilder.Entity("MovieDB.Models.SubmissionResponse", b =>
                 {
                     b.Property<int>("SubmissionId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CategoryID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Director")
@@ -48,12 +92,15 @@ namespace MovieDB.Migrations
 
                     b.HasKey("SubmissionId");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("Submissions");
 
                     b.HasData(
                         new
                         {
                             SubmissionId = 1,
+                            CategoryID = 5,
                             Director = "Gavin O'Connor",
                             Edited = false,
                             LentTo = "",
@@ -65,6 +112,7 @@ namespace MovieDB.Migrations
                         new
                         {
                             SubmissionId = 2,
+                            CategoryID = 1,
                             Director = "Christopher Nolan",
                             Edited = false,
                             LentTo = "",
@@ -76,6 +124,7 @@ namespace MovieDB.Migrations
                         new
                         {
                             SubmissionId = 3,
+                            CategoryID = 5,
                             Director = "Ron Howard",
                             Edited = false,
                             LentTo = "",
@@ -84,6 +133,15 @@ namespace MovieDB.Migrations
                             Title = "Cinderella Man",
                             Year = (short)2005
                         });
+                });
+
+            modelBuilder.Entity("MovieDB.Models.SubmissionResponse", b =>
+                {
+                    b.HasOne("MovieDB.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
